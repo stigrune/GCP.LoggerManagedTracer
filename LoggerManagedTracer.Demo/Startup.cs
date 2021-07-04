@@ -11,9 +11,12 @@ namespace GCP.LoggerManagedTracer.Demo
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment environment;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            this.environment = environment;
         }
 
         public IConfiguration Configuration { get; }
@@ -21,8 +24,16 @@ namespace GCP.LoggerManagedTracer.Demo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add the LoggerManagedTracer.
-            services.AddTransient<IManagedTracer, LoggerManagedTracer>();
+            if (environment.IsDevelopment())
+            {
+                // Add the LoggerManagedTracer.
+                services.AddTransient<IManagedTracer, LoggerManagedTracer>();
+            }
+            if (environment.IsStaging() || environment.IsProduction())
+            {
+                // Add the default Google Trace implmementation here.
+                // services.AddGoogleTrace();
+            }
 
 
             // Setup the log output for the demo.
