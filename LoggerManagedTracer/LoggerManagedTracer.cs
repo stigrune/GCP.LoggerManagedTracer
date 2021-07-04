@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace LoggerManagedTracer
+namespace GCP.LoggerManagedTracer
 {
     public class LoggerManagedTracer : IManagedTracer
     {

@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace LoggerManagedTracer.Tests
+namespace GCP.LoggerManagedTracer.Tests
 {
     public class LoggerManagedTracerTests
     {

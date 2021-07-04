@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Google.Cloud.Diagnostics.Common;
 
-namespace LoggerManagedTracer.Demo
+namespace GCP.LoggerManagedTracer.Demo
 {
     public class Startup
     {

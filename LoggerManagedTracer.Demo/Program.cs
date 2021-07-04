@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace LoggerManagedTracer.Demo
+namespace GCP.LoggerManagedTracer.Demo
 {
     public class Program
     {

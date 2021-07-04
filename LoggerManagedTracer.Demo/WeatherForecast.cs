@@ -1,6 +1,6 @@
 using System;
 
-namespace LoggerManagedTracer.Demo
+namespace GCP.LoggerManagedTracer.Demo
 {
     public class WeatherForecast
     {

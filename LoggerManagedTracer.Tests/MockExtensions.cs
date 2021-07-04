@@ -2,7 +2,7 @@
 using Moq;
 using System;
 
-namespace LoggerManagedTracer.Tests
+namespace GCP.LoggerManagedTracer.Tests
 {
     internal static class MockExtensions
     {

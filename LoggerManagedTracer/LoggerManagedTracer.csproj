@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0</Version>
+    <PackageId>GCP.LoggerManagedTracer</PackageId>
+    <Authors>stigrune</Authors>
+    <Product>GCP.LoggerManagedTracer</Product>
+    <Company>stigrune</Company>
+    <RepositoryUrl>https://github.com/stigrune/GCP.LoggerManagedTracer</RepositoryUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>A simple Google.Cloud.Diagnostics.Common.IManagedTracer implementation to output the span elapsed time to a Microsoft.Extensions.Logging.ILogger</Description>
   </PropertyGroup>
 
   <ItemGroup>
