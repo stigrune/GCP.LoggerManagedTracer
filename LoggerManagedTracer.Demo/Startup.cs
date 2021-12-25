@@ -31,7 +31,7 @@ namespace GCP.LoggerManagedTracer.Demo
             }
             if (environment.IsStaging() || environment.IsProduction())
             {
-                // Add the default Google Trace implmementation here.
+                // Add the default Google Trace implementation here.
                 // services.AddGoogleTrace();
             }
 
