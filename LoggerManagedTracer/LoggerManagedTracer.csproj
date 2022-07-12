@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <PackageId>GCP.LoggerManagedTracer</PackageId>
     <Authors>stigrune</Authors>
     <Product>GCP.LoggerManagedTracer</Product>
@@ -15,7 +15,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Cloud.Diagnostics.AspNetCore3" Version="5.0.0" />
     <PackageReference Include="Google.Cloud.Diagnostics.Common" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
   </ItemGroup>
