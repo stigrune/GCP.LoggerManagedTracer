@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Logging;
-using Moq;
+using NSubstitute;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -12,26 +12,26 @@ namespace GCP.LoggerManagedTracer.Tests
         public void StartSpan_ShouldWriteToLog()
         {
             var expectedSpanName = Guid.NewGuid().ToString();
-            var loggerMock = new Mock<ILogger<LoggerManagedTracer>>();
-            var sut = new LoggerManagedTracer(loggerMock.Object);
+            var loggerMock = Substitute.For<ILogger<LoggerManagedTracer>>();
+            var sut = new LoggerManagedTracer(loggerMock);
             
             using var span = sut.StartSpan(expectedSpanName);
             span.Dispose();
 
-            loggerMock.VerifyLoggerWasCalled(expectedSpanName, Times.Once());
+            loggerMock.VerifyLoggerWasCalled(expectedSpanName, 1);
         }
 
         [Fact]
         public void RunInSpan_ShouldWriteToLog()
         {
             var expectedSpanName = Guid.NewGuid().ToString();
-            var loggerMock = new Mock<ILogger<LoggerManagedTracer>>();
-            var sut = new LoggerManagedTracer(loggerMock.Object);
+            var loggerMock = Substitute.For<ILogger<LoggerManagedTracer>>();
+            var sut = new LoggerManagedTracer(loggerMock);
 
             var flipMe = false;
             sut.RunInSpan(() => { flipMe = true; }, expectedSpanName);
 
-            loggerMock.VerifyLoggerWasCalled(expectedSpanName, Times.Once());
+            loggerMock.VerifyLoggerWasCalled(expectedSpanName, 1);
             Assert.True(flipMe);
         }
 
@@ -39,12 +39,12 @@ namespace GCP.LoggerManagedTracer.Tests
         public async Task RunInSpanAsync_ShouldWriteToLog()
         {
             var expectedSpanName = Guid.NewGuid().ToString();
-            var loggerMock = new Mock<ILogger<LoggerManagedTracer>>();
-            var sut = new LoggerManagedTracer(loggerMock.Object);
+            var loggerMock = Substitute.For<ILogger<LoggerManagedTracer>>();
+            var sut = new LoggerManagedTracer(loggerMock);
 
             var result = await sut.RunInSpanAsync(async () => await Task.FromResult(true), expectedSpanName);
 
-            loggerMock.VerifyLoggerWasCalled(expectedSpanName, Times.Once());
+            loggerMock.VerifyLoggerWasCalled(expectedSpanName, 1);
             Assert.True(result);
         }
     }

@@ -5,19 +5,11 @@ using System.Diagnostics;
 
 namespace GCP.LoggerManagedTracer
 {
-    internal class LoggerSpan : ISpan
+    internal class LoggerSpan(ILogger<LoggerManagedTracer> logger, string name) : ISpan
     {
-        private readonly ILogger<LoggerManagedTracer> logger;
-        private readonly string name;
-        private readonly Stopwatch stopwatch;
-
-        public LoggerSpan(ILogger<LoggerManagedTracer> logger, string name)
-        {
-            this.logger = logger;
-            this.name = name;
-            stopwatch = Stopwatch.StartNew();
-        }
-
+        private readonly ILogger<LoggerManagedTracer> logger = logger;
+        private readonly string name = name;
+        private readonly Stopwatch stopwatch = Stopwatch.StartNew();
 
         public void Dispose()
         {

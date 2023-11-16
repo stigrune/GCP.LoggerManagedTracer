@@ -1,21 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
-using Moq;
+using NSubstitute;
 using System;
 
 namespace GCP.LoggerManagedTracer.Tests
 {
     internal static class MockExtensions
     {
-        internal static Mock<ILogger<T>> VerifyLoggerWasCalled<T>(this Mock<ILogger<T>> logger, string contains, Times times)
+        internal static void VerifyLoggerWasCalled<T>(this ILogger<T> logger, string contains, int times)
         {
-            logger.Verify(l => l.Log(
-                           It.IsAny<LogLevel>(),
-                           It.IsAny<EventId>(),
-                           It.Is<It.IsAnyType>((v, t) => v.ToString().Contains(contains)),
-                           It.IsAny<Exception>(),
-                           It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)), times);
-
-            return logger;
+            logger.Received(times)
+                .Log(LogLevel.Debug, 0, Arg.Is<object>(x => x.ToString().Contains(contains)), null, Arg.Any<Func<object, Exception, string>>());
         }
     }
 }

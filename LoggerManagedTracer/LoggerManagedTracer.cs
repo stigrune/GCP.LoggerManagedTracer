@@ -7,14 +7,9 @@ using System.Threading.Tasks;
 
 namespace GCP.LoggerManagedTracer
 {
-    public class LoggerManagedTracer : IManagedTracer
+    public class LoggerManagedTracer(ILogger<LoggerManagedTracer> logger) : IManagedTracer
     {
-        private readonly ILogger<LoggerManagedTracer> logger;
-
-        public LoggerManagedTracer(ILogger<LoggerManagedTracer> logger)
-        {
-            this.logger = logger;
-        }
+        private readonly ILogger<LoggerManagedTracer> logger = logger;
 
         public ISpan StartSpan(string name, StartSpanOptions options = null)
         {
