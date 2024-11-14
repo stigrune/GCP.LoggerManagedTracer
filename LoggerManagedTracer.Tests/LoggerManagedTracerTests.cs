@@ -1,51 +1,59 @@
-using Microsoft.Extensions.Logging;
-using NSubstitute;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
 using Xunit;
 
-namespace GCP.LoggerManagedTracer.Tests
+namespace GCP.LoggerManagedTracer.Tests;
+
+public class LoggerManagedTracerTests
 {
-    public class LoggerManagedTracerTests
+    [Fact]
+    public void StartSpan_ShouldWriteToLog()
     {
-        [Fact]
-        public void StartSpan_ShouldWriteToLog()
-        {
-            var expectedSpanName = Guid.NewGuid().ToString();
-            var loggerMock = Substitute.For<ILogger<LoggerManagedTracer>>();
-            var sut = new LoggerManagedTracer(loggerMock);
-            
-            using var span = sut.StartSpan(expectedSpanName);
-            span.Dispose();
+        var expectedSpanName = Guid.NewGuid().ToString();
+        var loggerMock = Substitute.For<ILogger<LoggerManagedTracer>>();
+        var sut = new LoggerManagedTracer(loggerMock);
 
-            loggerMock.VerifyLoggerWasCalled(expectedSpanName, 1);
-        }
+        using var span = sut.StartSpan(expectedSpanName);
+        span.Dispose();
 
-        [Fact]
-        public void RunInSpan_ShouldWriteToLog()
-        {
-            var expectedSpanName = Guid.NewGuid().ToString();
-            var loggerMock = Substitute.For<ILogger<LoggerManagedTracer>>();
-            var sut = new LoggerManagedTracer(loggerMock);
+        loggerMock.VerifyLoggerWasCalled(expectedSpanName, 1);
+    }
 
-            var flipMe = false;
-            sut.RunInSpan(() => { flipMe = true; }, expectedSpanName);
+    [Fact]
+    public void RunInSpan_ShouldWriteToLog()
+    {
+        var expectedSpanName = Guid.NewGuid().ToString();
+        var loggerMock = Substitute.For<ILogger<LoggerManagedTracer>>();
+        var sut = new LoggerManagedTracer(loggerMock);
 
-            loggerMock.VerifyLoggerWasCalled(expectedSpanName, 1);
-            Assert.True(flipMe);
-        }
+        var flipMe = false;
+        sut.RunInSpan(
+            () =>
+            {
+                flipMe = true;
+            },
+            expectedSpanName
+        );
 
-        [Fact]
-        public async Task RunInSpanAsync_ShouldWriteToLog()
-        {
-            var expectedSpanName = Guid.NewGuid().ToString();
-            var loggerMock = Substitute.For<ILogger<LoggerManagedTracer>>();
-            var sut = new LoggerManagedTracer(loggerMock);
+        loggerMock.VerifyLoggerWasCalled(expectedSpanName, 1);
+        Assert.True(flipMe);
+    }
 
-            var result = await sut.RunInSpanAsync(async () => await Task.FromResult(true), expectedSpanName);
+    [Fact]
+    public async Task RunInSpanAsync_ShouldWriteToLog()
+    {
+        var expectedSpanName = Guid.NewGuid().ToString();
+        var loggerMock = Substitute.For<ILogger<LoggerManagedTracer>>();
+        var sut = new LoggerManagedTracer(loggerMock);
 
-            loggerMock.VerifyLoggerWasCalled(expectedSpanName, 1);
-            Assert.True(result);
-        }
+        var result = await sut.RunInSpanAsync(
+            async () => await Task.FromResult(true),
+            expectedSpanName
+        );
+
+        loggerMock.VerifyLoggerWasCalled(expectedSpanName, 1);
+        Assert.True(result);
     }
 }
